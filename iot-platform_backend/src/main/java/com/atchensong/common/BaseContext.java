@@ -1,10 +1,8 @@
 package com.atchensong.common;
 
-/**
- * 基于ThreadLocal封装工具类，用户保存和获取当前登录用户id
- */
 public class BaseContext {
     private static ThreadLocal<Long> threadLocal = new ThreadLocal<>();
+    private static ThreadLocal<String> roleLocal = new ThreadLocal<>();
 
     public static void setCurrentId(Long id) {
         threadLocal.set(id);
@@ -12,5 +10,22 @@ public class BaseContext {
 
     public static Long getCurrentId() {
         return threadLocal.get();
+    }
+
+    public static void setCurrentRole(String role) {
+        roleLocal.set(role);
+    }
+
+    public static String getCurrentRole() {
+        return roleLocal.get();
+    }
+
+    public static boolean isGuest() {
+        return getCurrentId() == null;
+    }
+
+    public static void clear() {
+        threadLocal.remove();
+        roleLocal.remove();
     }
 }
