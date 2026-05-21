@@ -58,6 +58,7 @@
           刷新
         </el-button>
         <el-button
+            v-if="!userStore.isGuest"
             type="danger"
             :icon="Delete"
             @click="handleBatchDelete"
@@ -100,6 +101,7 @@
               详情
             </el-button>
             <el-button
+                v-if="!userStore.isGuest"
                 size="small"
                 type="text"
                 @click.stop="handleDelete(row)"
@@ -132,9 +134,11 @@ import { useRouter } from 'vue-router'
 import { Search, Refresh, Delete } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useAlarmStore } from '@/stores/alarm'
+import { useUserStore } from '@/stores/user'
 
 const router = useRouter()
 const alarmStore = useAlarmStore()
+const userStore = useUserStore()
 
 // 加载数据
 onMounted(() => {

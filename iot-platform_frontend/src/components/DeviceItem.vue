@@ -20,9 +20,9 @@
     </div>
     <div class="footer">
       <el-button type="primary" @click="viewDetails">查看</el-button>
-      <el-button type="success" @click="editDevice">编辑</el-button>
+      <el-button v-if="!userStore.isGuest" type="success" @click="editDevice">编辑</el-button>
       <el-button type="warning" @click="showDeviceMessages">设备消息</el-button>
-      <el-button type="danger" :icon="Delete" @click="confirmDeleteDevice" circle/>
+      <el-button v-if="!userStore.isGuest" type="danger" :icon="Delete" @click="confirmDeleteDevice" circle/>
     </div>
 
     <!-- 设备详情对话框 -->
@@ -140,7 +140,7 @@
             </div>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="控制下发" name="control">
+        <el-tab-pane v-if="!userStore.isGuest" label="控制下发" name="control">
           <el-form label-width="100px" style="margin-top: 20px;">
             <el-form-item label="动作名称:">
               <el-input v-model="controlForm.action" placeholder="请输入动作名称"></el-input>
@@ -166,9 +166,11 @@ import {ElMessageBox, ElMessage, ElLoading} from 'element-plus';
 import * as echarts from 'echarts';
 import axios from 'axios';
 import {useRouter} from "vue-router";
+import { useUserStore } from '@/stores/user';
 
 
 // Props定义
+const userStore = useUserStore()
 const props = defineProps({
   device: {
     type: Object,

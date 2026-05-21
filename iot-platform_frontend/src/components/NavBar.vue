@@ -59,12 +59,12 @@
     <div class="sidebar-footer">
       <el-button
           type="text"
-          @click="logout"
+          @click="handleLogout"
           class="logout-btn"
-          :title="isCollapsed ? '退出' : '退出登录'"
+          :title="isCollapsed ? (userStore.isGuest ? '登录' : '退出') : (userStore.isGuest ? '游客访问中，点击登录' : '退出登录')"
       >
         <el-icon><SwitchButton /></el-icon>
-        <span v-show="!isCollapsed">退出登录</span>
+        <span v-show="!isCollapsed">{{ userStore.isGuest ? '游客访问' : '退出登录' }}</span>
       </el-button>
     </div>
   </div>
@@ -83,9 +83,11 @@ import {
   Expand,
   Fold
 } from '@element-plus/icons-vue';
+import { useUserStore } from '@/stores/user';
 
 const router = useRouter();
 const route = useRoute();
+const userStore = useUserStore();
 const isCollapsed = ref(false);
 const isFloatMode = ref(false); // 新增：控制是否启用悬浮模式
 
@@ -109,8 +111,13 @@ const toggleCollapse = () => {
   }
 };
 
-const logout = () => {
-  router.push('/login');
+const handleLogout = () => {
+  if (userStore.isGuest) {
+    router.push('/login');
+  } else {
+    userStore.clearAuth();
+    router.push('/login');
+  }
 };
 </script>
 

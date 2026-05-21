@@ -46,12 +46,13 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
+import { useUserStore } from '@/stores/user';
 
 const router = useRouter();
+const userStore = useUserStore();
 const username = ref('');
 const password = ref('');
 
-// 移动端输入框聚焦处理
 function handleInputFocus(event) {
   event.target.parentNode.classList.add('focused');
 }
@@ -73,10 +74,12 @@ async function login() {
       password: password.value
     });
 
-    if (response.status === 200) {
+    if (response.status === 200 && response.data?.code === 0) {
+      const { token, user } = response.data.data;
+      userStore.setAuth(token, user);
       router.push('/dashboard');
     } else {
-      alert('登录失败，请检查用户名和密码');
+      alert(response.data?.msg || '登录失败');
     }
   } catch (error) {
     console.error('登录错误:', error);

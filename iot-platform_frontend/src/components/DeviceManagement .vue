@@ -29,7 +29,7 @@
             <el-button type="primary" :icon="Search" @click="searchDevices">搜索</el-button>
           </el-form-item>
         </el-form>
-        <el-button type="primary" :icon="CirclePlus" @click="showDialog = true">
+        <el-button v-if="!userStore.isGuest" type="primary" :icon="CirclePlus" @click="showDialog = true">
           添加设备
         </el-button>
       </div>
@@ -69,7 +69,9 @@ import * as echarts from 'echarts';
 import { Search, CirclePlus, Box, Connection, Bell, DataLine } from '@element-plus/icons-vue';
 import DeviceList from './DeviceList.vue';
 import {ElMessage} from "element-plus";
+import { useUserStore } from '@/stores/user';
 
+const userStore = useUserStore();
 const searchParams = ref({
   deviceID: '',
   title: ''

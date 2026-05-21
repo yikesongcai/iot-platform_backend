@@ -35,6 +35,7 @@
           </el-form-item>
         </el-form>
         <el-button
+            v-if="!userStore.isGuest"
             type="primary"
             :icon="CirclePlus"
             @click="handleAdd"
@@ -67,6 +68,7 @@
         <el-table-column label="状态" width="100">
           <template #default="{ row }">
             <el-switch
+                v-if="!userStore.isGuest"
                 v-model="row.status"
                 active-value="active"
                 inactive-value="inactive"
@@ -74,21 +76,27 @@
                 inactive-text=""
                 @change="handleStatusChange(row)"
             />
+            <el-tag v-else :type="row.status === 'active' ? 'success' : 'danger'" effect="dark">
+              {{ row.status === 'active' ? '启用' : '禁用' }}
+            </el-tag>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="180" fixed="right">
           <template #default="{ row }">
             <el-button
+                v-if="!userStore.isGuest"
                 size="small"
                 :icon="Edit"
                 @click="handleEdit(row)"
             >编辑</el-button>
             <el-button
+                v-if="!userStore.isGuest"
                 size="small"
                 :icon="Delete"
                 type="danger"
                 @click="handleDelete(row)"
             >删除</el-button>
+            <span v-if="userStore.isGuest" style="color: #999">只读</span>
           </template>
         </el-table-column>
       </el-table>
@@ -122,6 +130,9 @@ import { Search, CirclePlus, Edit, Delete } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import UserDialog from '@/components/UserDialog.vue'
 import axios from '@/utils/axios'
+import { useUserStore } from '@/stores/user'
+
+const userStore = useUserStore()
 
 // 用户数据
 const userList = ref([])
