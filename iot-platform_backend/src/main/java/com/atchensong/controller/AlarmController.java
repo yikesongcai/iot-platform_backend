@@ -1,6 +1,7 @@
 package com.atchensong.controller;
 
 import com.atchensong.common.R;
+import com.atchensong.common.RequireAuth;
 import com.atchensong.pojo.AlarmDetailDTO;
 import com.atchensong.pojo.AlarmListDTO;
 import com.atchensong.pojo.AlarmMessage;
@@ -37,6 +38,7 @@ public class AlarmController {
     }
 
     // 创建告警（模拟设备上报）
+    @RequireAuth
     @PostMapping("/create")
     public R<Long> createAlarm(
             @RequestBody AlarmMessage alarm) {

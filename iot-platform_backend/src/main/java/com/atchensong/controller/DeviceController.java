@@ -2,6 +2,7 @@ package com.atchensong.controller;
 
 import com.atchensong.common.R;
 import com.atchensong.common.RandomUtil;
+import com.atchensong.common.RequireAuth;
 import com.atchensong.component.MqttVerticle;
 import com.atchensong.pojo.Control;
 import com.atchensong.pojo.Device;
@@ -43,6 +44,7 @@ DeviceController {
     @Autowired
     private WarningService warningService;
 
+    @RequireAuth
     @PostMapping("/register")
     public R<String> registerDevice(@RequestBody Device device) {
         log.info("[设备注册]:{}", device);
@@ -62,6 +64,7 @@ DeviceController {
         }
     }
 
+    @RequireAuth
     @PutMapping("/update")
     public R<String> updateDevice(@RequestBody Device device) {
         log.info("[设备修改]:{}", device);
@@ -110,6 +113,7 @@ DeviceController {
         return R.success(pageResult);
     }
 
+    @RequireAuth
     @DeleteMapping("/{id}")
     public R<Device> remove(@PathVariable Long id) {
         log.info("[设备删除]:删除ID={}", id);
@@ -126,6 +130,7 @@ DeviceController {
     * 设备控制
     *
     * */
+    @RequireAuth
     @PostMapping("/{deviceId}/send")
     public R<Device> send(@PathVariable Long deviceId,@RequestBody String message) {
         System.out.println("[检测到对设备id]"+deviceId+"进行控制下发");

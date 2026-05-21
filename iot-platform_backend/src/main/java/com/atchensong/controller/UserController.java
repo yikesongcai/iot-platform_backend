@@ -1,6 +1,8 @@
 package com.atchensong.controller;
 
+import com.atchensong.common.JwtUtil;
 import com.atchensong.common.R;
+import com.atchensong.common.RequireAuth;
 import com.atchensong.pojo.User;
 import com.atchensong.service.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -25,7 +27,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/login")
-    public R<User> login(@RequestBody User user) {
+    public R<Map<String, Object>> login(@RequestBody User user) {
         log.info("[用户登录]:传入的用户信息{}", user);
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(User::getUsername, user.getUsername());
@@ -35,9 +37,13 @@ public class UserController {
         }
         if (!one.getPassword().equals(user.getPassword())) {
             return R.error("密码错误");
-    }
+        }
+        String token = JwtUtil.generateToken(one.getId(), one.getUsername(), one.getRole());
+        Map<String, Object> data = new HashMap<>();
+        data.put("token", token);
+        data.put("user", one);
         log.info("[用户登录]:登录成功{}", user);
-        return R.success(one);
+        return R.success(data);
     }
     // 1. 分页查询用户列表
     @GetMapping("/page")
@@ -65,6 +71,7 @@ public class UserController {
 
 
     // 2. 新增用户
+    @RequireAuth
     @PostMapping
     public R<String> save(@RequestBody User user) {
         log.info("[新增用户] 用户信息: {}", user);
@@ -83,6 +90,7 @@ public class UserController {
     }
 
     // 3. 更新用户信息
+    @RequireAuth
     @PutMapping
     public R<String> update(@RequestBody User user) {
         log.info("[更新用户] 用户信息: {}", user);
@@ -99,6 +107,7 @@ public class UserController {
     }
 
     // 4. 删除用户
+    @RequireAuth
     @DeleteMapping("/{id}")
     public R<String> delete(@PathVariable Long id) {
         log.info("[删除用户] ID: {}", id);
@@ -114,6 +123,7 @@ public class UserController {
     }
 
     // 5. 修改用户状态
+    @RequireAuth
     @PutMapping("/status")
     public R<String> updateStatus(@RequestParam Long id,
                                   @RequestParam String status) {
