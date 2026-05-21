@@ -1,0 +1,20 @@
+{
+    "payload": {
+        "params":[
+            "temperature": [1,11]
+        ]
+    }
+}
+
+parseInt(temperature[0].toString(16) + ""+temperature[1].toString(16),16)/10;
+
+{
+    "system": "reboot"
+}
+
+
+
+
+
+
+

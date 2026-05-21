@@ -1,0 +1,139 @@
+/* 修改后的CSS样式 */
+.warning-container {
+    padding: 24px 24px 24px 20px; /* 调整左内边距减少缝隙 */
+    margin-left: 220px; /* 精确匹配导航栏宽度 */
+    background-color: #f5f7fa;
+    min-height: 100vh;
+    transition: margin-left 0.3s ease;
+    box-sizing: border-box;
+}
+
+.sidebar-container.collapsed ~ .warning-container {
+    margin-left: 64px;
+    padding-left: 16px; /* 导航栏收起时的左内边距 */
+}
+
+.content-header {
+    margin-bottom: 24px;
+    padding: 16px 20px; /* 调整内边距使宽度匹配 */
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    margin-right: 4px; /* 微调使边缘对齐 */
+}
+
+.warning-card {
+    border-radius: 8px;
+    width: calc(100% - 4px); /* 微调宽度使边缘对齐 */
+}
+
+/* 保持原有的其他样式不变 */
+.search-bar {
+    margin-bottom: 20px;
+    padding: 0 16px; /* 调整内边距 */
+}
+
+.search-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+}
+
+.search-form :deep(.el-form-item) {
+    margin-bottom: 0;
+}
+
+.search-form :deep(.el-form-item__label) {
+    color: #666;
+    font-weight: 500;
+}
+
+.el-table {
+    margin-top: 16px;
+}
+
+.el-table :deep(th) {
+    background-color: #f0f7f1 !important;
+    color: #2e7d32;
+    font-weight: 600;
+}
+
+.el-table :deep(.el-table__row:hover) {
+    background-color: #f0f7f1 !important;
+}
+
+.pagination {
+    margin-top: 24px;
+    padding: 0 16px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* 告警级别标签样式 */
+:deep(.el-tag) {
+    font-weight: bold;
+}
+
+:deep(.el-tag--danger) {
+    background-color: #fef0f0;
+    border-color: #fde2e2;
+    color: #f56c6c;
+}
+
+:deep(.el-tag--warning) {
+    background-color: #fdf6ec;
+    border-color: #faecd8;
+    color: #e6a23c;
+}
+
+/* 响应式设计调整 */
+@media (max-width: 992px) {
+    .warning-container {
+        margin-left: 220px;
+        padding: 16px 16px 16px 12px;
+    }
+
+    .sidebar-container.collapsed ~ .warning-container {
+        margin-left: 64px;
+        padding-left: 12px;
+    }
+
+    .content-header {
+        margin-right: 0;
+    }
+
+    .warning-card {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .warning-container {
+        margin-left: 0;
+        padding: 12px;
+    }
+
+    .sidebar-container.collapsed ~ .warning-container {
+        margin-left: 0;
+    }
+
+    .search-form {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .search-form :deep(.el-form-item) {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .search-form :deep(.el-input),
+    .search-form :deep(.el-select) {
+        width: 100%;
+    }
+
+    .pagination {
+        justify-content: center;
+    }
+}

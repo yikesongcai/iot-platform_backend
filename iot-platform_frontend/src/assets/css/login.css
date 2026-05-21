@@ -1,0 +1,257 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f5f7fa;
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+
+.login-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-form {
+  width: 100%;
+  height: 100%;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #fff;
+  z-index: 2;
+}
+
+.logo-area {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.logo-text {
+  font-size: 22px;
+  font-weight: bold;
+  color: #2e7d32;
+  border-bottom: 3px solid #81c784;
+  padding-bottom: 5px;
+}
+
+.form-content {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.form-title {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.form-title h1 {
+  font-size: 26px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.form-title h4 {
+  font-size: 15px;
+  color: #666;
+  font-weight: normal;
+}
+
+.input-item {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.input-field {
+  width: 100%;
+  padding: 16px 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 16px;
+  transition: all 0.3s;
+  background-color: #f9f9f9;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #81c784;
+  box-shadow: 0 0 0 2px rgba(129, 199, 132, 0.2);
+}
+
+.input-label {
+  position: absolute;
+  left: 20px;
+  top: 16px;
+  color: #999;
+  font-size: 16px;
+  transition: all 0.3s;
+  pointer-events: none;
+}
+
+.input-field:focus + .input-label,
+.input-field:not(:placeholder-shown) + .input-label {
+  top: -10px;
+  left: 10px;
+  font-size: 12px;
+  background: #fff;
+  padding: 0 5px;
+  color: #2e7d32;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 16px;
+  background-color: #2e7d32;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 20px;
+}
+
+.login-btn:hover {
+  background-color: #1b5e20;
+}
+
+.login-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.login-bg img {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  opacity: 0.2;
+}
+
+/* 平板及以上设备样式 */
+@media (min-width: 768px) {
+  .login-container {
+    width: 90vw;
+    max-width: 1200px;
+    height: 80vh;
+    min-height: 600px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .login-form {
+    width: 45%;
+    padding: 40px;
+  }
+
+  .logo-area {
+    margin-bottom: 40px;
+    text-align: left;
+  }
+
+  .logo-text {
+    font-size: 24px;
+  }
+
+  .form-content {
+    max-width: 100%;
+  }
+
+  .form-title {
+    text-align: left;
+    margin-bottom: 40px;
+  }
+
+  .form-title h1 {
+    font-size: 28px;
+  }
+
+  .form-title h4 {
+    font-size: 16px;
+  }
+
+  .login-bg {
+    position: relative;
+    width: 55%;
+    opacity: 1;
+  }
+
+  .login-bg img {
+    opacity: 1;
+  }
+}
+
+/* 移动端特定优化 */
+@media (max-width: 480px) {
+  .login-form {
+    padding: 25px;
+  }
+
+  .logo-text {
+    font-size: 20px;
+  }
+
+  .form-title h1 {
+    font-size: 24px;
+  }
+
+  .input-field {
+    padding: 14px 18px;
+  }
+
+  .login-btn {
+    padding: 14px;
+    margin-top: 15px;
+  }
+
+  /* 防止移动端键盘弹出时布局错乱 */
+  @media (max-height: 600px) {
+    .login-form {
+      justify-content: flex-start;
+      padding-top: 20px;
+    }
+
+    .logo-area {
+      margin-bottom: 20px;
+    }
+  }
+}
+
+/* 横屏模式优化 */
+@media (max-width: 768px) and (orientation: landscape) {
+  .login-form {
+    padding: 20px;
+    justify-content: flex-start;
+    overflow-y: auto;
+  }
+
+  .logo-area {
+    margin-bottom: 15px;
+  }
+
+  .input-item {
+    margin-bottom: 15px;
+  }
+
+  .login-btn {
+    margin-top: 15px;
+  }
+}
