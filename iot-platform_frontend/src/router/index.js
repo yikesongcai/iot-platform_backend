@@ -59,4 +59,10 @@ const router = createRouter({
   history: createWebHashHistory()
 })
 
+router.beforeEach((to, from, next) => {
+  // All routes are accessible — router simply doesn't block navigation
+  // Guest vs logged-in differentiation happens in each page's UI via userStore.isGuest
+  next()
+})
+
 export default router
