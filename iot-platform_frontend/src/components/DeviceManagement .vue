@@ -36,7 +36,19 @@
     </el-card>
 
     <el-card>
-      <DeviceList :devices="devices" @deviceRemoved="fetchDevices" />
+      <DeviceList :devices="devices" @deviceRemoved="fetchDevices(currentPage.value, pageSize.value)" />
+
+      <div class="pagination-container">
+        <el-pagination
+            v-model:current-page="currentPage"
+            v-model:page-size="pageSize"
+            :total="total"
+            :page-sizes="[10, 20, 50, 100]"
+            layout="total, sizes, prev, pager, next, jumper"
+            @size-change="handleSizeChange"
+            @current-change="handlePageChange"
+        />
+      </div>
     </el-card>
 
     <el-dialog v-model="showDialog" title="添加设备" width="500px">
@@ -78,6 +90,9 @@ const searchParams = ref({
 });
 
 const devices = ref([]);
+const currentPage = ref(1);
+const pageSize = ref(10);
+const total = ref(0);
 const showDialog = ref(false);
 const newDevice = ref({
   title: '',
@@ -172,24 +187,23 @@ const initChart = () => {
   chartInstance.setOption(option);
 };
 
-const fetchDevices = async (params = {}) => {
+const fetchDevices = async (page = currentPage.value, size = pageSize.value) => {
   try {
-    const response = await axios.post('/api/device/list', {
-      deviceId: params.deviceID,
-      title: params.title || '',
-      productKey: params.productKey || '',
-      deviceName: "",
-      online: ""
+    const response = await axios.get('/device/page', {
+      params: { page, size }
     });
 
-    if (response.status === 200 && response.data && Array.isArray(response.data.data)) {
-      devices.value = response.data.data.map(device => {
+    if (response.status === 200 && response.data?.code === 0) {
+      const pageData = response.data.data;
+      devices.value = (pageData.records || []).map(device => {
         return {
           ...device,
           createTime: formatDateTime(device.createTime),
           updateTime: formatDateTime(device.updateTime)
         };
       });
+      total.value = pageData.total || 0;
+      currentPage.value = pageData.current || page;
     } else {
       console.error('获取设备列表失败');
     }
@@ -221,7 +235,47 @@ const fetchDeviceStats = async () => {
 };
 
 const searchDevices = () => {
-  fetchDevices(searchParams.value);
+  if (searchParams.value.deviceID || searchParams.value.title) {
+    searchWithFilter();
+  } else {
+    currentPage.value = 1;
+    fetchDevices(1, pageSize.value);
+  }
+};
+
+const searchWithFilter = async () => {
+  try {
+    const response = await axios.post('/device/list', {
+      deviceId: searchParams.value.deviceID,
+      title: searchParams.value.title || '',
+      productKey: '',
+      deviceName: '',
+      online: ''
+    });
+
+    if (response.status === 200 && response.data && Array.isArray(response.data.data)) {
+      devices.value = response.data.data.map(device => ({
+        ...device,
+        createTime: formatDateTime(device.createTime),
+        updateTime: formatDateTime(device.updateTime)
+      }));
+      total.value = devices.value.length;
+      currentPage.value = 1;
+    }
+  } catch (error) {
+    console.error('搜索设备错误:', error);
+  }
+};
+
+const handlePageChange = (page) => {
+  currentPage.value = page;
+  fetchDevices(page, pageSize.value);
+};
+
+const handleSizeChange = (size) => {
+  pageSize.value = size;
+  currentPage.value = 1;
+  fetchDevices(1, size);
 };
 
 function formatDateTime(dateTimeString) {
@@ -247,7 +301,7 @@ const addDevice = async () => {
     if (response.status === 200) {
       ElMessage.success('设备添加成功');
       showDialog.value = false;
-      fetchDevices();
+      fetchDevices(currentPage.value, pageSize.value);
       fetchDeviceStats();
       resetForm();
     } else {
@@ -269,7 +323,7 @@ const resetForm = () => {
 };
 
 onMounted(() => {
-  fetchDevices();
+  fetchDevices(1, pageSize.value);
   fetchDeviceStats();
   window.addEventListener('resize', handleResize);
 });
