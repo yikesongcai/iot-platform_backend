@@ -120,7 +120,7 @@
                 @change="fetchDeviceData"
             />
           </div>
-          <div id="messageChart" style="width: 100%; height: 350px;"></div>
+          <div :id="'messageChart-' + device.deviceId" style="width: 100%; height: 350px;"></div>
           <div class="data-summary">
             <div class="summary-item">
               <span class="label">当前值:</span>
@@ -510,7 +510,7 @@ const calculateStats = () => {
 
 // 图表处理
 const updateChart = () => {
-  const chartDom = document.getElementById('messageChart');
+  const chartDom = document.getElementById(`messageChart-${props.device.deviceId}`);
   if (!chartDom) return;
 
   // 初始化或更新图表

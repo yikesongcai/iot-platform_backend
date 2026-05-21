@@ -17,6 +17,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -86,13 +87,13 @@ DeviceController {
         LambdaQueryWrapper<Device> queryWrapper = new LambdaQueryWrapper<Device>();
 
         //若传入的设备名称不为空，则根据设备名称来检索
-        queryWrapper.like(!device.getDeviceName().isBlank(), Device::getDeviceName, device.getDeviceName());
+        queryWrapper.like(StringUtils.isNotBlank(device.getDeviceName()), Device::getDeviceName, device.getDeviceName());
         //若传入的设备在线状态不为空，则根据在线状态来检索
-        queryWrapper.eq(!device.getOnline().isBlank(), Device::getOnline, device.getOnline());
+        queryWrapper.eq(StringUtils.isNotBlank(device.getOnline()), Device::getOnline, device.getOnline());
         //若传入的设备密钥不为空，则根据设备密钥来检索
-        queryWrapper.eq(!device.getProductKey().isBlank(), Device::getProductKey, device.getProductKey());
+        queryWrapper.eq(StringUtils.isNotBlank(device.getProductKey()), Device::getProductKey, device.getProductKey());
         //若传入的设备标题不为空，则根据设备标题来检索
-        queryWrapper.eq(!device.getTitle().isBlank(), Device::getTitle, device.getTitle());
+        queryWrapper.eq(StringUtils.isNotBlank(device.getTitle()), Device::getTitle, device.getTitle());
 
         //根据设备的修改时间排降序
         queryWrapper.orderByDesc(Device::getOnline);
