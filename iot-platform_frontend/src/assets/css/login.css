@@ -124,6 +124,25 @@ body {
   background-color: #1b5e20;
 }
 
+.guest-btn {
+  width: 100%;
+  padding: 15px;
+  background-color: #ffffff;
+  color: #2e7d32;
+  border: 1px solid #81c784;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 12px;
+}
+
+.guest-btn:hover {
+  background-color: #e8f5e9;
+  border-color: #2e7d32;
+}
+
 .login-bg {
   position: absolute;
   width: 100%;
@@ -220,6 +239,10 @@ body {
   .login-btn {
     padding: 14px;
     margin-top: 15px;
+  }
+
+  .guest-btn {
+    padding: 13px;
   }
 
   /* 防止移动端键盘弹出时布局错乱 */

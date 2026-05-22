@@ -3,6 +3,10 @@ node_modules/
 .pnp
 .pnp.js
 
+# Local notes and generated planning docs
+docs/
+CLAUDE.md
+
 # Build output
 target/
 dist/
@@ -16,6 +20,7 @@ build/
 # IDE
 .idea/
 .vscode/
+*.iml
 *.swp
 *.swo
 *~

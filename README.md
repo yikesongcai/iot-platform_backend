@@ -150,8 +150,9 @@ Nginx /api/* proxy ──── Vue 3 前端 ──── ECharts 可视化
 
 ```
 iot-greenhouse/
-├── init.sql                        # 数据库初始化（建表 + 示例数据）
-├── optimize.sql                    # 性能优化索引
+├── database/                       # 数据库脚本
+│   ├── init.sql                    # 数据库初始化（建表 + 示例数据）
+│   └── optimize.sql                # 性能优化索引
 ├── docker-compose.yml              # Docker 编排
 ├── nginx.conf                      # Nginx 反向代理配置
 ├── iot-platform_backend/           # 后端 Spring Boot
@@ -189,7 +190,7 @@ iot-greenhouse/
 
 - Docker 已安装
 - `core-mysql` MySQL 8.0 容器已运行（`docker network ls | grep core-network`）
-- 数据库 `iot_final_training` 已通过 `init.sql` 初始化
+- 数据库 `iot_final_training` 已通过 `database/init.sql` 初始化
 
 ### 一键启动
 
@@ -197,10 +198,10 @@ iot-greenhouse/
 cd iot-greenhouse
 
 # 1. 初始化数据库（首次）
-docker exec -i core-mysql mysql -uroot -p123456 < init.sql
+docker exec -i core-mysql mysql -uroot -p123456 < database/init.sql
 
 # 2. 添加性能索引
-docker exec -i core-mysql mysql -uroot -p123456 < optimize.sql
+docker exec -i core-mysql mysql -uroot -p123456 < database/optimize.sql
 
 # 3. 构建并启动
 docker compose up -d --build

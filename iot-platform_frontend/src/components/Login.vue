@@ -33,6 +33,7 @@
             <label class="input-label">密码</label>
           </div>
           <button class="login-btn" @click="login">登 录</button>
+          <button class="guest-btn" @click="enterAsGuest">游客模式</button>
         </div>
       </div>
     </div>
@@ -85,6 +86,11 @@ async function login() {
     console.error('登录错误:', error);
     alert('登录失败，请稍后重试');
   }
+}
+
+function enterAsGuest() {
+  userStore.clearAuth();
+  router.push('/dashboard');
 }
 </script>
 
