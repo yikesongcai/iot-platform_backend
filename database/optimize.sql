@@ -3,7 +3,7 @@
 -- 为长时间运行场景添加必要索引
 -- ============================================
 
-USE `iot_final_training`;
+USE `iot_final-training`;
 
 -- 1. device_messages 表：核心查询优化
 -- 查询模式：WHERE device_id = ? AND timestamp BETWEEN ? AND ? ORDER BY timestamp

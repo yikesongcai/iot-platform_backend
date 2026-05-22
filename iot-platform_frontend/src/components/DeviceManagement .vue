@@ -36,7 +36,7 @@
     </el-card>
 
     <el-card>
-      <DeviceList :devices="devices" @deviceRemoved="fetchDevices(currentPage.value, pageSize.value)" />
+      <DeviceList :devices="devices" @deviceRemoved="fetchDevices(currentPage, pageSize)" />
 
       <div class="pagination-container">
         <el-pagination
@@ -189,7 +189,7 @@ const initChart = () => {
 
 const fetchDevices = async (page = currentPage.value, size = pageSize.value) => {
   try {
-    const response = await axios.get('/device/page', {
+    const response = await axios.get('/api/device/page', {
       params: { page, size }
     });
 
@@ -245,7 +245,7 @@ const searchDevices = () => {
 
 const searchWithFilter = async () => {
   try {
-    const response = await axios.post('/device/list', {
+    const response = await axios.post('/api/device/list', {
       deviceId: searchParams.value.deviceID,
       title: searchParams.value.title || '',
       productKey: '',

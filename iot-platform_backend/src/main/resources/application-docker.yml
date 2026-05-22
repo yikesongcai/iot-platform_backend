@@ -2,7 +2,7 @@ spring:
   datasource:
     username: ${DB_USERNAME:root}
     password: ${DB_PASSWORD:123456}
-    url: jdbc:mysql://${DB_HOST:core-mysql}:${DB_PORT:3306}/${DB_NAME:iot_final_training}?serverTimezone=UTC
+    url: jdbc:mysql://${DB_HOST:core-mysql}:${DB_PORT:3306}/${DB_NAME:iot_final-training}?serverTimezone=UTC
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       initial-size: 1
